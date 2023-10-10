@@ -2,7 +2,9 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-st.set_page_config(page_title="Clean Currents Presentation", page_icon=None, layout="wide", initial_sidebar_state="auto", menu_items=None)
+import plotly.figure_factory as ff
+
+st.set_page_config(page_title="Clean Currents Presentation", page_icon="static/INL.png", layout="wide", initial_sidebar_state="auto", menu_items=None)
 
 @st.cache_data
 def load_inpute_data(folder="profile_samples", hydro="EnergyGenerationProfile.csv", price="PriceProfile.csv", frequency="60T"):
@@ -31,5 +33,15 @@ elif frequency == "1dy":
 
 df = load_inpute_data(frequency=frequency)
 
+st.markdown("### Input Data")
 fig = px.line(df)
+fig.update_layout(height=600)
+st.plotly_chart(fig, use_container_width=True)
+
+st.markdown("<hr>", unsafe_allow_html=True)
+st.markdown("### Input Data Statistics")
+
+df.reset_index(inplace=True)
+fig = ff.create_table(df.describe().round(decimals=2), index=True)
+
 st.plotly_chart(fig, use_container_width=True)

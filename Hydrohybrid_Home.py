@@ -1,8 +1,7 @@
 import streamlit as st
 from PIL import Image
 
-st.set_page_config(page_title="Clean Currents Presentation", page_icon=None, layout="wide", initial_sidebar_state="auto", menu_items=None)
-
+st.set_page_config(page_title="Clean Currents Presentation", page_icon="static/INL.png", layout="wide", initial_sidebar_state="auto", menu_items=None)
 
 hydrohybrid_image = Image.open('static/hydrohybrid_image.png')
 partners_image = Image.open('static/partners_image.png')

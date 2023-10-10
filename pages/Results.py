@@ -4,7 +4,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import os
 
-st.set_page_config(page_title="Clean Currents Presentation", page_icon=None, layout="wide", initial_sidebar_state="auto", menu_items=None)
+st.set_page_config(page_title="Clean Currents Presentation", page_icon="static/INL.png", layout="wide", initial_sidebar_state="auto", menu_items=None)
 
 @st.cache_data
 def read_annual_battery_degredation(folder, file):
@@ -56,8 +56,6 @@ def read_daily_battery_degredation(folder, file):
     df["Storage Regulation Up (MWh)"] = df["Storage Regulation Up (MWh)"] / (24 * 12)
     df["Storage Regulation Down (MWh)"] = df["Storage Regulation Down (MWh)"] / (24 * 12)
     df["Storage Spin (MWh)"] = df["Storage Spin (MWh)"] / (24 * 12)
-
-
 
     return df
 
