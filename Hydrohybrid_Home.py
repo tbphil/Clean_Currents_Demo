@@ -3,6 +3,14 @@ from PIL import Image
 
 st.set_page_config(page_title="Clean Currents Presentation", page_icon="static/INL.png", layout="wide", initial_sidebar_state="auto", menu_items=None)
 
+hide_streamlit_style = """
+<style>
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+</style>
+"""
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
 hydrohybrid_image = Image.open('static/hydrohybrid_image.png')
 partners_image = Image.open('static/partners_image.png')
 
