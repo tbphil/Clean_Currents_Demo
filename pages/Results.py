@@ -73,7 +73,7 @@ def read_daily_battery_degredation(folder, file):
     return df
 
 
-plant_name = st.sidebar.selectbox("Select Case", ["Clean Currents Presentation", "case1", "CleanCurrents", "TEST"])
+plant_name = st.sidebar.selectbox("Select Case", ["Clean Currents Presentation",])
 
 #######################################
 # Annual Financial Performance
