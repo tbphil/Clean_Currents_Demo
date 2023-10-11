@@ -30,10 +30,10 @@ def read_daily_financial_performance(folder, file):
     df = pd.read_csv(f"{folder}/{file}")
     df.drop(["Unnamed: 0", "Day.1"], axis=1, inplace=True)
     df.rename(columns={"Day": "Date",
-                       "Revenue: Storage Energy to Grid ($)_max": "Storage to Grid ($)",
-                       "Revenue: Storage RegUp ($)_max": "Storage RegUp ($)",
-                       "Revenue: Storage RegDn ($)_max": "Storage RegDn ($)",
-                       "Revenue: Storage Spin ($)_max": "Storage Spin ($)",
+                       "Revenue: Storage Energy to Grid ($)_max": "Storage to Grid ($/day)",
+                       "Revenue: Storage RegUp ($)_max": "Storage RegUp ($/day)",
+                       "Revenue: Storage RegDn ($)_max": "Storage RegDn ($/day)",
+                       "Revenue: Storage Spin ($)_max": "Storage Spin ($/day)",
     }, inplace=True)
 
     # Fix the incorrect data
@@ -42,7 +42,11 @@ def read_daily_financial_performance(folder, file):
     df["Price: RegDn ($/MWh)"] = df["Price: RegDn ($/MWh)"] / (24 * 12)
     df["Price: Spin ($/MWh)"] = df["Price: Spin ($/MWh)"] / (24 * 12)
     df["Price: NonSpin ($/MWh)"] = df["Price: NonSpin ($/MWh)"] / (24 * 12)
-    #df["Revenue: Hydro Energy to Grid ($)"] = df["Revenue: Hydro Energy to Grid ($)"] / (24 * 12)
+
+    df["Storage to Grid ($/day)"] = df["Storage to Grid ($/day)"] / (12 * 12)
+    df["Storage RegUp ($/day)"] = df["Storage RegUp ($/day)"] / (12 * 12)
+    df["Storage RegDn ($/day)"] = df["Storage RegDn ($/day)"] / (12 * 12)
+    df["Storage Spin ($/day)"] = df["Storage Spin ($/day)"] / (12 * 12)
 
     return df
 
@@ -60,6 +64,11 @@ def read_daily_battery_degredation(folder, file):
     df["Storage Regulation Up (MWh)"] = df["Storage Regulation Up (MWh)"] / (24 * 12)
     df["Storage Regulation Down (MWh)"] = df["Storage Regulation Down (MWh)"] / (24 * 12)
     df["Storage Spin (MWh)"] = df["Storage Spin (MWh)"] / (24 * 12)
+
+    df.rename(columns={"Storage Discharge Energy to Grid (MWh)": "Storage Discharge Energy to Grid (MWh/day)",
+                       "Storage Regulation Up (MWh)": "Storage Regulation Up (MWh/day)",
+                       "Storage Regulation Down (MWh)": "Storage Regulation Down (MWh/day)",
+                       "Storage Spin (MWh)": "Storage Spin (MWh/day)"}, inplace=True)
 
     return df
 
@@ -82,18 +91,18 @@ AFP_df = read_annual_financial_performance(folder="csv", file=f"PredictedAnnualF
 
 #----------------------------------
 # Total Reveune
-hydro_only_rev = AFP_df['Revenue: Hydro Only'].mean()
-total_rev_max = AFP_df['Total Revenue'].max()
-col1.markdown(f"Hydro Only Revenue: ${hydro_only_rev:,.0f}")
-col1.markdown(f"Max Total Revenue: ${total_rev_max:,.0f}")
-col1.markdown(f"Increased Revenue: ${total_rev_max - hydro_only_rev:,.0f}")
+#hydro_only_rev = AFP_df['Revenue: Hydro Only'].mean()
+#total_rev_max = AFP_df['Total Revenue'].max()
+#col1.markdown(f"Hydro Only Revenue: ${hydro_only_rev:,.0f}")
+#col1.markdown(f"Max Total Revenue: ${total_rev_max:,.0f}")
+#col1.markdown(f"Increased Revenue: ${total_rev_max - hydro_only_rev:,.0f}")
 
 fig = px.scatter_3d(AFP_df, x="Energy (MWh)", y="Capacity (MW)", z="Total Revenue")
 
 hydro_only = AFP_df["Revenue: Hydro Only"].values[0]
-fig.add_trace(go.Surface(x=[AFP_df["Energy (MWh)"].min(), AFP_df["Energy (MWh)"].max()],
-                         y=[AFP_df["Capacity (MW)"].min(), AFP_df["Capacity (MW)"].max()],
-                         z=[[hydro_only, hydro_only], [hydro_only, hydro_only]], opacity=0.5, showscale=False))
+#fig.add_trace(go.Surface(x=[AFP_df["Energy (MWh)"].min(), AFP_df["Energy (MWh)"].max()],
+#                         y=[AFP_df["Capacity (MW)"].min(), AFP_df["Capacity (MW)"].max()],
+#                         z=[[hydro_only, hydro_only], [hydro_only, hydro_only]], opacity=0.5, showscale=False))
 fig.update_layout(margin=dict(t=0, b=0, l=0, r=0))
 col2.plotly_chart(fig, use_container_width=True)
 
@@ -147,19 +156,7 @@ fig.update_layout(margin=dict(t=0, b=0, l=0, r=0))
 col2.plotly_chart(fig, use_container_width=True)
 
 
-##########################################
-# Annual Battery Degradation
-##########################################
-# st.markdown("<hr>", unsafe_allow_html=True)
-#
-# ABG_df = read_annual_battery_degredation(folder="csv", file=f"PredictedAnnualBatteryDegredation_{plant_name}.csv")
-# col1, col2 = st.columns([1, 2])
-# col1.markdown("### Battery Loss")
-# col1.markdown("Need to find out what this means.")
-#
-# fig = px.scatter_3d(ABG_df, x="Energy (MWh)", y="Capacity (MW)", z="Loss (%)")
-# fig.update_layout(margin=dict(t=0, b=0, l=0, r=0))
-# col2.plotly_chart(fig, use_container_width=True)
+
 
 ####################################################
 # Daily Battery Degradation
@@ -198,10 +195,10 @@ DFP_df.set_index("Date", inplace=True)
 DFP_df.sort_index(inplace=True)
 
 
-fig = px.line(DFP_df[["Storage to Grid ($)",
-                      "Storage RegUp ($)",
-                      "Storage RegDn ($)",
-                      "Storage Spin ($)"]])
+fig = px.line(DFP_df[["Storage to Grid ($/day)",
+                      "Storage RegUp ($/day)",
+                      "Storage RegDn ($/day)",
+                      "Storage Spin ($/day)"]])
 st.plotly_chart(fig, use_container_width=True)
 
 
