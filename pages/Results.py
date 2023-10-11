@@ -72,6 +72,17 @@ def read_daily_battery_degredation(folder, file):
 
     return df
 
+files_long = os.listdir("csv")
+files = []
+for f in files_long:
+    if f.endswith(".csv"):
+        f = f.split("_")[-1].split(".")[0]
+        if f not in files:
+            files.append(f)
+
+files.remove("Clean Currents Presentation")
+files.insert(0, "Clean Currents Presentation")
+
 
 plant_name = st.sidebar.selectbox("Select Case", ["Clean Currents Presentation",])
 
