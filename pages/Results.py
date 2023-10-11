@@ -89,13 +89,6 @@ battery and assumed to only participate in the energy market)""")
 # Read in the data
 AFP_df = read_annual_financial_performance(folder="csv", file=f"PredictedAnnualFinancialPerformance_{plant_name}.csv")
 
-#----------------------------------
-# Total Reveune
-#hydro_only_rev = AFP_df['Revenue: Hydro Only'].mean()
-#total_rev_max = AFP_df['Total Revenue'].max()
-#col1.markdown(f"Hydro Only Revenue: ${hydro_only_rev:,.0f}")
-#col1.markdown(f"Max Total Revenue: ${total_rev_max:,.0f}")
-#col1.markdown(f"Increased Revenue: ${total_rev_max - hydro_only_rev:,.0f}")
 
 fig = px.scatter_3d(AFP_df, x="Energy (MWh)", y="Capacity (MW)", z="Total Revenue")
 
@@ -178,7 +171,7 @@ DBD_df.set_index("Date", inplace=True)
 DBD_df.sort_index(inplace=True)
 
 fig = px.line(DBD_df.drop("group", axis=1))
-#fig.add_trace(go.Scatter(x=DBD_df.index, y=DBD_df["Loss (%)"].cumsum(), name="Sum Loss (%)"))
+fig.update_layout(legend=dict(title='',yanchor="top", y=0.99, xanchor="left", x=0.0, bgcolor='rgba(0,0,0,0.05)'))
 st.plotly_chart(fig, use_container_width=True)
 
 
@@ -199,6 +192,7 @@ fig = px.line(DFP_df[["Storage to Grid ($/day)",
                       "Storage RegUp ($/day)",
                       "Storage RegDn ($/day)",
                       "Storage Spin ($/day)"]])
+fig.update_layout(legend=dict(title='',yanchor="top", y=0.99, xanchor="left", x=0.0, bgcolor='rgba(0,0,0,0.05)'))
 st.plotly_chart(fig, use_container_width=True)
 
 

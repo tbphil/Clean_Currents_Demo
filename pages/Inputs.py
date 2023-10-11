@@ -36,6 +36,7 @@ df = load_inpute_data(frequency=frequency)
 st.markdown("### Input Data")
 fig = px.line(df)
 fig.update_layout(height=600)
+fig.update_layout(legend=dict(title='',yanchor="top", y=0.99, xanchor="left", x=0.0, bgcolor='rgba(0,0,0,0.05)'))
 st.plotly_chart(fig, use_container_width=True)
 
 st.markdown("<hr>", unsafe_allow_html=True)
@@ -43,5 +44,4 @@ st.markdown("### Input Data Statistics")
 
 #df.reset_index(inplace=True)
 fig = ff.create_table(df.describe().round(decimals=2), index=True)
-
 st.plotly_chart(fig, use_container_width=True)
