@@ -171,7 +171,7 @@ DBD_df = read_daily_battery_degredation(folder="csv", file=f"PredictedDailyBatte
 capacity = st.sidebar.selectbox("Select Capacity (MW)", AFP_df["Capacity (MW)"].unique())
 energy = st.sidebar.selectbox("Select Energy (MWh)", AFP_df[AFP_df["Capacity (MW)"] == capacity]["Energy (MWh)"].unique())
 
-st.markdown(f"### Daily Battery Results at {capacity:.1f} (MW) and {energy:.1f} (MWh)")
+st.markdown(f"### Daily Battery Output")
 
 # Need to find the group of these values
 group = AFP_df[(AFP_df["Capacity (MW)"] == capacity) & (AFP_df["Energy (MWh)"] == energy)]["group"].values[0]
@@ -190,7 +190,7 @@ st.plotly_chart(fig, use_container_width=True)
 # Daily Revenue Data
 ########################################################
 st.markdown("<hr>", unsafe_allow_html=True)
-st.markdown("### Battery Storage Revenue")
+st.markdown("### Daily Battery Storage Revenue")
 DFP_df = read_daily_financial_performance("csv", f"PredictedDailyRevenueData_{plant_name}.csv")
 
 DFP_df = DFP_df[DFP_df["group"] == group]
