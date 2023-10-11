@@ -41,7 +41,7 @@ st.plotly_chart(fig, use_container_width=True)
 st.markdown("<hr>", unsafe_allow_html=True)
 st.markdown("### Input Data Statistics")
 
-df.reset_index(inplace=True)
+#df.reset_index(inplace=True)
 fig = ff.create_table(df.describe().round(decimals=2), index=True)
 
 st.plotly_chart(fig, use_container_width=True)
