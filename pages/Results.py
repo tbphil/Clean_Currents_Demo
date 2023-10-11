@@ -51,10 +51,10 @@ def read_daily_financial_performance(folder, file):
     df["Price: Spin ($/MWh)"] = df["Price: Spin ($/MWh)"] / (24 * 12)
     df["Price: NonSpin ($/MWh)"] = df["Price: NonSpin ($/MWh)"] / (24 * 12)
 
-    df["Storage to Grid ($/day)"] = df["Storage to Grid ($/day)"] / (12 * 12)
-    df["Storage RegUp ($/day)"] = df["Storage RegUp ($/day)"] / (12 * 12)
-    df["Storage RegDn ($/day)"] = df["Storage RegDn ($/day)"] / (12 * 12)
-    df["Storage Spin ($/day)"] = df["Storage Spin ($/day)"] / (12 * 12)
+    df["Storage to Grid ($/day)"] = df["Storage to Grid ($/day)"] / (24)
+    df["Storage RegUp ($/day)"] = df["Storage RegUp ($/day)"] / (24)
+    df["Storage RegDn ($/day)"] = df["Storage RegDn ($/day)"] / (24)
+    df["Storage Spin ($/day)"] = df["Storage Spin ($/day)"] / (24)
 
     return df
 
