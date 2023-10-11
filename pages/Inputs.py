@@ -6,6 +6,14 @@ import plotly.figure_factory as ff
 
 st.set_page_config(page_title="Clean Currents Presentation", page_icon="static/INL.png", layout="wide", initial_sidebar_state="auto", menu_items=None)
 
+hide_streamlit_style = """
+<style>
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+</style>
+"""
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
 @st.cache_data
 def load_inpute_data(folder="profile_samples", hydro="EnergyGenerationProfile.csv", price="PriceProfile.csv", frequency="60T"):
     df_gen = pd.read_csv(f"{folder}/{hydro}")
